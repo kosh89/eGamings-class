@@ -11,54 +11,29 @@ fetch('./games/games.json')
       }
 
       showCatTags() {
-        const tags = [];
+        const tags = new Set();
         this.data.categories.forEach(category => {
-          category.Tags.forEach(tag => {
-            if (!tags.includes(tag)) {
-              tags.push(tag);
-            }
+          category.Tags.forEach (tag => {
+            tags.add(tag);
           });
         });
         return tags;
-      }
+      };
 
       showCatOnTag(tag) {
-        const categories = [];
-        this.data.categories.forEach(category => {
-          if (category.Tags.includes(tag)) {
-            categories.push(category.Name.en);
-          }
-        });
-        return categories;
-      }
+        return this.data.categories.filter(category => category.Tags.includes(tag)).map(category => category.Name.en);
+      };
 
       showCatOnLang(lang) {
-        const categories = [];
-        this.data.categories.forEach(category => {
-          categories.push(category.Name[lang]);
-        });
-        return categories;
-      }
+        return this.data.categories.map(category => category.Name[lang]);
+      };
 
       showGamesWithDemo() {
-        const games = [];
-        this.data.games.forEach(game => {
-          if (game.hasDemo) {
-            games.push(game.Name.en);
-          }
-        });
-        return games;
+        return this.data.games.filter(game => game.hasDemo).map(game => game);
       }
 
       showGamesOnMerchantId(id) {
-        const games = [];
-        id = id.toString();
-        this.data.games.forEach(game => {
-          if (game.MerchantID === id) {
-            games.push(game.Name.en);
-          }
-        });
-        return games;
+        return this.data.games.filter(game => game.MerchantID === id.toString()).map(game => game);
       }
     }
 
